@@ -34,7 +34,8 @@ const dbSchema = new mongoose.Schema({
 
 const Myarticle = new mongoose.model("Myarticle" , dbSchema);
 
-app.get("/myarticles" , (req , res)=>{
+
+app.route("/myarticles").get((req , res)=>{
     Myarticle.find({} ,(error , result)=>{
         if(!error){
             res.send(result);
@@ -42,10 +43,7 @@ app.get("/myarticles" , (req , res)=>{
             res.send(error)
         }
     });
-});
-
-
-app.post("/myarticles" , (req , res)=>{
+}).post((req , res)=>{
     const title = req.body.title;
     const description = req.body.description;
 
@@ -62,6 +60,12 @@ app.post("/myarticles" , (req , res)=>{
         }
     });
 
+}).delete((req , res)=>{
+    Myarticle.deleteMany((error)=>{
+        if(!error){
+            res.send("successfully deleted the database items");
+        }
+    });
 });
 
 app.listen(3000 , ()=>{
