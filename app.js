@@ -68,6 +68,19 @@ app.route("/myarticles").get((req , res)=>{
     });
 });
 
+
+app.route("/myarticles/:request_title").get((req , res)=>{
+    const request_title = req.params.request_title;
+    Myarticle.findOne({title: request_title} , (error , result)=>{
+        if(!error){
+            res.send(result);
+        }
+        else{
+            res.send(error);
+        }
+    });
+});
+
 app.listen(3000 , ()=>{
     console.log("Universe is listening and helping you Shreyas");
 });
