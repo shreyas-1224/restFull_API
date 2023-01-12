@@ -69,7 +69,8 @@ app.route("/myarticles").get((req , res)=>{
 });
 
 
-app.route("/myarticles/:request_title").get((req , res)=>{
+app.route("/myarticles/:request_title")
+.get((req , res)=>{
     const request_title = req.params.request_title;
     Myarticle.findOne({title: request_title} , (error , result)=>{
         if(!error){
@@ -79,6 +80,44 @@ app.route("/myarticles/:request_title").get((req , res)=>{
             res.send(error);
         }
     });
+}).put((req , res)=>{
+    Myarticle.updateOne(
+        {title : req.params.request_title},
+        {$set : 
+        {   title : req.body.title,
+            description : req.body.description    
+        }},
+        (error)=>{
+            if(!error){
+                res.send("updated successfully");
+            }else{
+                res.send(error);
+            }
+        });
+
+}).patch((req , res)=>{
+    Myarticle.updateOne(
+        {title : req.params.request_title},
+        {$set :   req.body  },
+        (error)=>{
+            if(!error){
+                res.send("updated successfully");
+            }else{
+                res.send(error);
+            }
+        });
+}).delete((req , res)=>{
+    Myarticle.deleteOne(
+        {title : req.params.request_title},
+        (error)=>{
+            if(!error){
+                res.send("deleted successfully");
+            }else{
+                res.send(error);
+            }    
+        }
+    );
+    
 });
 
 app.listen(3000 , ()=>{
